@@ -1,0 +1,141 @@
+* {
+    -fx-font-family: "Arial";
+}
+
+.root {
+    -fx-background-color: #0D1117;
+}
+
+/* ── Typography ── */
+.title-text {
+    -fx-font-size: 42px;
+    -fx-font-weight: bold;
+    -fx-fill: #FFFFFF;
+}
+
+.subtitle-text {
+    -fx-font-size: 16px;
+    -fx-fill: #8B949E;
+}
+
+.heading-text {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-fill: #FFFFFF;
+}
+
+.body-text {
+    -fx-font-size: 14px;
+    -fx-fill: #C9D1D9;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+    -fx-background-color: #2E75B6;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 40;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #1F5A96;
+}
+
+.btn-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2E75B6;
+    -fx-font-size: 14px;
+    -fx-padding: 10 30;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-border-color: #2E75B6;
+    -fx-border-radius: 8;
+    -fx-border-width: 2;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: #2E75B6;
+    -fx-text-fill: white;
+}
+
+/* ── Input fields ── */
+.input-field {
+    -fx-background-color: #161B22;
+    -fx-text-fill: #C9D1D9;
+    -fx-prompt-text-fill: #484F58;
+    -fx-border-color: #30363D;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10 15;
+    -fx-font-size: 14px;
+    -fx-pref-width: 320px;
+    -fx-pref-height: 44px;
+}
+
+.input-field:focused {
+    -fx-border-color: #2E75B6;
+}
+
+/* ── Cards ── */
+.card {
+    -fx-background-color: #161B22;
+    -fx-background-radius: 12;
+    -fx-border-color: #30363D;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 24;
+}
+
+.card:hover {
+    -fx-border-color: #2E75B6;
+}
+
+/* ── Error label ── */
+.error-text {
+    -fx-font-size: 13px;
+    -fx-fill: #F85149;
+}
+
+/* ── Success label ── */
+.success-text {
+    -fx-font-size: 13px;
+    -fx-fill: #3FB950;
+}
+
+/* ── Nav bar ── */
+.navbar {
+    -fx-background-color: #161B22;
+    -fx-border-color: #30363D;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 0 30;
+}
+
+/* ── XP Bar ── */
+.xp-bar {
+    -fx-accent: #2E75B6;
+    -fx-background-color: #30363D;
+    -fx-background-radius: 4;
+    -fx-pref-height: 8px;
+}
+
+/* ── Career card ── */
+.career-card {
+    -fx-background-color: #161B22;
+    -fx-background-radius: 16;
+    -fx-border-color: #30363D;
+    -fx-border-radius: 16;
+    -fx-border-width: 1;
+    -fx-padding: 20;
+    -fx-cursor: hand;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 200px;
+}
+
+.career-card:hover {
+    -fx-border-color: #2E75B6;
+    -fx-background-color: #1C2128;
+}

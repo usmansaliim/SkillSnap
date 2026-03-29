@@ -1,0 +1,137 @@
+package com.skillsnap.screens;
+
+import com.skillsnap.app.ScreenManager;
+import com.skillsnap.database.PlayerDAO;
+import com.skillsnap.models.player.*;
+import javafx.geometry.*;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+
+public class RegisterScreen {
+
+    private PlayerDAO playerDAO = new PlayerDAO();
+
+    public Pane getLayout() {
+        BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: #0D1117;");
+
+        // ── REGISTER CARD ─────────────────────────────────────
+        VBox card = new VBox(14);
+        card.setAlignment(Pos.CENTER_LEFT);
+        card.getStyleClass().add("card");
+        card.setMaxWidth(400);
+
+        Text heading = new Text("Create Account");
+        heading.getStyleClass().add("heading-text");
+
+        Text sub = new Text("Start discovering your career path");
+        sub.getStyleClass().add("subtitle-text");
+
+        // Fields
+        TextField fullNameField  = makeField("Full Name",   "Muhammad Usman Saleem");
+        TextField usernameField  = makeField("Username",    "Choose a username");
+        TextField emailField     = makeField("Email",       "your@email.com");
+        TextField uniField       = makeField("University",  "NUST, FAST, LUMS...");
+        PasswordField passField  = new PasswordField();
+        passField.setPromptText("Choose a password");
+        passField.getStyleClass().add("input-field");
+
+        Label passLabel = new Label("Password");
+        passLabel.getStyleClass().add("body-text");
+
+        // Error/success
+        Text feedbackText = new Text();
+
+        // Register button
+        Button registerBtn = new Button("Create Account");
+        registerBtn.getStyleClass().add("btn-primary");
+        registerBtn.setPrefWidth(340);
+        registerBtn.setOnAction(e -> handleRegister(
+                fullNameField.getText().trim(),
+                usernameField.getText().trim(),
+                emailField.getText().trim(),
+                uniField.getText().trim(),
+                passField.getText().trim(),
+                feedbackText
+        ));
+
+        // Back to login
+        Button loginLink = new Button("Already have an account? Login");
+        loginLink.setStyle(
+                "-fx-background-color: transparent;" +
+                        "-fx-text-fill: #2E75B6;" +
+                        "-fx-font-size: 13px;" +
+                        "-fx-cursor: hand;" +
+                        "-fx-border-color: transparent;"
+        );
+        loginLink.setOnAction(e ->
+                ScreenManager.getInstance().showLogin());
+
+        card.getChildren().addAll(
+                heading, sub,
+                makeLabel("Full Name"),    fullNameField,
+                makeLabel("Username"),     usernameField,
+                makeLabel("Email"),        emailField,
+                makeLabel("University"),   uniField,
+                passLabel,                 passField,
+                feedbackText, registerBtn, loginLink
+        );
+
+        VBox wrapper = new VBox(card);
+        wrapper.setAlignment(Pos.CENTER);
+        wrapper.setStyle("-fx-background-color: #0D1117;");
+        root.setCenter(wrapper);
+        return root;
+    }
+
+    private void handleRegister(String fullName, String username,
+                                String email,    String university,
+                                String password, Text feedbackText) {
+        // Validation
+        if (fullName.isEmpty() || username.isEmpty() ||
+                email.isEmpty()    || password.isEmpty()) {
+            feedbackText.getStyleClass().setAll("error-text");
+            feedbackText.setText("Please fill in all fields.");
+            return;
+        }
+        if (password.length() < 6) {
+            feedbackText.getStyleClass().setAll("error-text");
+            feedbackText.setText("Password must be at least 6 characters.");
+            return;
+        }
+        if (playerDAO.usernameExists(username)) {
+            feedbackText.getStyleClass().setAll("error-text");
+            feedbackText.setText("Username already taken.");
+            return;
+        }
+
+        // Register
+        boolean success = playerDAO.register(
+                username, password, fullName, email, university, 1);
+
+        if (success) {
+            // Auto-login after register
+            Player player = playerDAO.login(username, password);
+            PlayerSession.getInstance().login(player);
+            ScreenManager.getInstance().showHome();
+        } else {
+            feedbackText.getStyleClass().setAll("error-text");
+            feedbackText.setText("Registration failed. Try again.");
+        }
+    }
+
+    // ── Helpers ───────────────────────────────────────────────
+    private TextField makeField(String label, String prompt) {
+        TextField tf = new TextField();
+        tf.setPromptText(prompt);
+        tf.getStyleClass().add("input-field");
+        return tf;
+    }
+
+    private Label makeLabel(String text) {
+        Label l = new Label(text);
+        l.getStyleClass().add("body-text");
+        return l;
+    }
+}
