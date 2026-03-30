@@ -14,6 +14,7 @@ import com.skillsnap.screens.ResultsScreen;
 import com.skillsnap.screens.RoadmapScreen;
 import com.skillsnap.screens.ProfileScreen;
 import com.skillsnap.screens.LeaderboardScreen;
+import com.skillsnap.utils.AnimationUtils;
 import javafx.scene.Scene;
 import com.skillsnap.screens.SuggestionScreen;
 import javafx.scene.layout.Pane;
@@ -45,69 +46,82 @@ public class ScreenManager {
 
     // ── NAVIGATION METHODS ────────────────────────────────────
     public void showWelcome() {
-        setScene(new WelcomeScreen().getLayout());
+        setScene(new WelcomeScreen().getLayout(), TransitionType.ZOOM);
     }
 
     public void showLogin() {
-        setScene(new LoginScreen().getLayout());
+        setScene(new LoginScreen().getLayout(), TransitionType.ZOOM);
     }
 
     public void showRegister() {
-        setScene(new RegisterScreen().getLayout());
+        setScene(new RegisterScreen().getLayout(), TransitionType.SLIDE_RIGHT);
     }
 
     public void showHome() {
-        setScene(new HomeScreen().getLayout());
+        setScene(new HomeScreen().getLayout(), TransitionType.FADE);
     }
 
     public void showCareerMap() {
-        setScene(new CareerMapScreen().getLayout());
+        setScene(new CareerMapScreen().getLayout(), TransitionType.SLIDE_RIGHT);
     }
 
     public void showGameLobby(CareerPath career) {
-        GameLobbyScreen screen = new GameLobbyScreen(career);
-        setScene(screen.getLayout());
+        setScene(new GameLobbyScreen(career).getLayout(), TransitionType.SLIDE_RIGHT);
     }
 
     public void showGame(MiniGame game, CareerPath career) {
-        setScene(new GameScreen(game, career).getLayout());
+        setScene(new GameScreen(game, career).getLayout(), TransitionType.SLIDE_RIGHT);
     }
 
     public void showResults(GameResult result, CareerPath career) {
-        setScene(new ResultsScreen(result, career).getLayout());
+        setScene(new ResultsScreen(result, career).getLayout(), TransitionType.SLIDE_UP);
     }
     public void showProfile() {
-        setScene(new ProfileScreen().getLayout());
+        setScene(new ProfileScreen().getLayout(), TransitionType.SLIDE_RIGHT);
     }
 
     public void showSuggestion() {
-        setScene(new SuggestionScreen().getLayout());
+        setScene(new SuggestionScreen().getLayout(), TransitionType.SLIDE_UP);
     }
 
     public void showBadges() {
-        // Badges shown inside ProfileScreen for now
-        setScene(new ProfileScreen().getLayout());
+        setScene(new ProfileScreen().getLayout(), TransitionType.SLIDE_RIGHT);
     }
 
     public void showLeaderboard() {
-        setScene(new LeaderboardScreen().getLayout());
+        setScene(new LeaderboardScreen().getLayout(), TransitionType.SLIDE_RIGHT);
     }
     public void showRoadmap(CareerPath career) {
-        setScene(new RoadmapScreen(career).getLayout());
+        setScene(new RoadmapScreen(career).getLayout(), TransitionType.SLIDE_UP);
     }
 
     // ── PRIVATE HELPER ────────────────────────────────────────
-    private void setScene(javafx.scene.layout.Pane layout) {
-        Scene scene = new Scene(layout, WIDTH, HEIGHT);
+    private void setScene(Pane layout) {
+        setScene(layout, TransitionType.SLIDE_RIGHT);
+    }
 
-        // Load global stylesheet
+    private void setScene(Pane layout, TransitionType type) {
+        Scene scene = new Scene(layout, WIDTH, HEIGHT);
         String css = getClass()
                 .getResource("/css/main.css")
                 .toExternalForm();
         scene.getStylesheets().add(css);
-
         stage.setScene(scene);
         stage.show();
+
+        // Apply transition based on type
+        switch (type) {
+            case SLIDE_RIGHT  -> AnimationUtils.slideInFromRight(layout);
+            case SLIDE_LEFT   -> AnimationUtils.slideInFromLeft(layout);
+            case SLIDE_UP     -> AnimationUtils.slideInFromBottom(layout);
+            case ZOOM         -> AnimationUtils.zoomIn(layout);
+            case FADE         -> AnimationUtils.fadeIn(layout);
+        }
+    }
+
+    // Transition types — easy to extend later
+    public enum TransitionType {
+        SLIDE_RIGHT, SLIDE_LEFT, SLIDE_UP, ZOOM, FADE
     }
 
 

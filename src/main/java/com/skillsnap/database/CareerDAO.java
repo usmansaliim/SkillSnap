@@ -90,18 +90,18 @@ public class CareerDAO {
     public ArrayList<RoadmapStep> getRoadmap(int careerId) {
         ArrayList<RoadmapStep> steps = new ArrayList<>();
         String sql = "SELECT * FROM RoadmapStep WHERE career_id = ? " +
-                "ORDER BY step_number";
+                "ORDER BY step_order";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, careerId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 steps.add(new RoadmapStep(
-                        rs.getInt   ("step_number"),
+                        rs.getInt   ("step_order"),
                         rs.getString("title"),
                         rs.getString("description"),
-                        rs.getString("duration"),
-                        rs.getString("resource_url"),
-                        rs.getString("resource_title")
+                        rs.getInt   ("duration_months") + " months",
+                        "",   // no resource_url in DB
+                        ""    // no resource_title in DB
                 ));
             }
         } catch (SQLException e) {
@@ -119,11 +119,11 @@ public class CareerDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 adviceList.add(new SeniorAdvice(
-                        rs.getString("senior_name"),
-                        rs.getString("current_role"),
-                        rs.getString("company"),
-                        rs.getString("university"),
-                        rs.getInt   ("years_exp"),
+                        "Industry Professional",  // senior_name
+                        rs.getString("author_title"), // current_role
+                        "",                           // company
+                        "",                           // university
+                        0,                            // years_exp
                         rs.getString("advice_text")
                 ));
             }
