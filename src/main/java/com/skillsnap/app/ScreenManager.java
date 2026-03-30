@@ -19,6 +19,8 @@ import javafx.scene.Scene;
 import com.skillsnap.screens.SuggestionScreen;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import com.skillsnap.screens.SettingsScreen;
+import com.skillsnap.screens.FriendsScreen;
 
 public class ScreenManager {
 
@@ -72,7 +74,9 @@ public class ScreenManager {
     public void showGame(MiniGame game, CareerPath career) {
         setScene(new GameScreen(game, career).getLayout(), TransitionType.SLIDE_RIGHT);
     }
-
+    public void showFriends() {
+        setScene(new FriendsScreen().getLayout(), TransitionType.SLIDE_RIGHT);
+    }
     public void showResults(GameResult result, CareerPath career) {
         setScene(new ResultsScreen(result, career).getLayout(), TransitionType.SLIDE_UP);
     }
@@ -93,6 +97,9 @@ public class ScreenManager {
     }
     public void showRoadmap(CareerPath career) {
         setScene(new RoadmapScreen(career).getLayout(), TransitionType.SLIDE_UP);
+    }
+    public void showSettings() {
+        setScene(new SettingsScreen().getLayout(), TransitionType.SLIDE_RIGHT);
     }
 
     // ── PRIVATE HELPER ────────────────────────────────────────

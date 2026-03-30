@@ -3,6 +3,7 @@ package com.skillsnap.screens;
 import com.skillsnap.app.ScreenManager;
 import com.skillsnap.database.GameDAO;
 import com.skillsnap.database.PlayerDAO;
+import com.skillsnap.database.QuestDAO;
 import com.skillsnap.models.career.CareerPath;
 import com.skillsnap.models.game.GameResult;          // ← this one
 import com.skillsnap.models.game.MiniGame;
@@ -24,6 +25,7 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.skillsnap.utils.SoundEngine;
 
 public class GameScreen {
 
@@ -148,6 +150,7 @@ public class GameScreen {
         startBtn.setPrefWidth(200);
         startBtn.setPrefHeight(46);
         startBtn.setOnAction(e -> {
+            SoundEngine.getInstance().playClick();
             generateQuestions();
             showQuestion();
         });
@@ -802,8 +805,10 @@ public class GameScreen {
         pause.play();
         if (!correct) {
             AnimationUtils.shake(card);
+            SoundEngine.getInstance().playWrong();
         } else {
             AnimationUtils.bounce(card);
+            SoundEngine.getInstance().playCorrect();
         }
 // import: import com.skillsnap.utils.AnimationUtils;
     }
@@ -855,6 +860,15 @@ public class GameScreen {
                 score >= 70 ? 75  :
                         score >= 50 ? 50  : 25;
         playerDAO.addXP(player.getPlayerId(), xpEarned);
+        // Update daily quest progress
+        QuestDAO questDAO = new QuestDAO();
+        int gamesPlayedToday = questDAO.getGamesPlayedToday(
+                PlayerSession.getInstance().getCurrentPlayer().getPlayerId());
+        int scorePct = (int)((score * 100.0) / game.getMaxScore());
+        questDAO.updateQuestProgress(
+                PlayerSession.getInstance().getCurrentPlayer().getPlayerId(),
+                gamesPlayedToday,
+                scorePct);
 
         // Update streak
         playerDAO.updateStreak(player.getPlayerId());
@@ -866,10 +880,21 @@ public class GameScreen {
                         game.getMaxScore());
 
         // Refresh player in session with updated XP
+        // Refresh player in session with updated XP
         Player updated =
                 playerDAO.getPlayerById(player.getPlayerId());
-        if (updated != null)
+        if (updated != null) {
+            // Check if player levelled up
+            if (updated.getLevel() > player.getLevel()) {
+                SoundEngine.getInstance().playLevelUp();
+            }
             PlayerSession.getInstance().login(updated);
+        }
+
+// Play badge sound if any new badges earned
+        if (!newBadges.isEmpty()) {
+            SoundEngine.getInstance().playBadgeUnlocked();
+        }
 
         // Build result
         double pct = (score * 100.0) / game.getMaxScore();

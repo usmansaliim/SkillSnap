@@ -171,3 +171,36 @@
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
+/* ── Quest card ── */
+.quest-card {
+    -fx-background-color: #161B22;
+    -fx-background-radius: 10;
+    -fx-border-color: #30363D;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-padding: 14 18;
+}
+
+.quest-card-completed {
+    -fx-background-color: #0D2A1A;
+    -fx-background-radius: 10;
+    -fx-border-color: #3FB950;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-padding: 14 18;
+}
+
+/* ── Quest progress bar ── */
+.quest-bar {
+    -fx-accent: #2E75B6;
+    -fx-background-color: #30363D;
+    -fx-background-radius: 4;
+    -fx-pref-height: 6px;
+}
+
+.quest-bar-done {
+    -fx-accent: #3FB950;
+    -fx-background-color: #30363D;
+    -fx-background-radius: 4;
+    -fx-pref-height: 6px;
+}

@@ -15,6 +15,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import java.util.ArrayList;
+import com.skillsnap.utils.SoundEngine;
 
 public class GameLobbyScreen {
 
@@ -203,9 +204,10 @@ public class GameLobbyScreen {
         playBtn.getStyleClass().add("btn-primary");
         playBtn.setStyle(playBtn.getStyle() +
                 "-fx-font-size: 13px; -fx-padding: 8 24;");
-        playBtn.setOnAction(e ->
-                ScreenManager.getInstance()
-                        .showGame(game, career));
+        playBtn.setOnAction(e -> {
+            SoundEngine.getInstance().playClick();
+            ScreenManager.getInstance().showGame(game, career);
+        });
 
         row.getChildren().addAll(diffTag, info, playBtn);
         return row;

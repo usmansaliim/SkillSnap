@@ -181,13 +181,19 @@ public class ProfileScreen {
         viewAllBadges.setPrefWidth(180);
         viewAllBadges.setOnAction(e ->
                 ScreenManager.getInstance().showBadges());
+        Button settingsBtn = new Button("⚙  Settings");
+        settingsBtn.getStyleClass().add("btn-secondary");
+        settingsBtn.setPrefWidth(180);
+        settingsBtn.setOnAction(e ->
+                ScreenManager.getInstance().showSettings());
 
         content.getChildren().addAll(
                 profileCard,
                 statsTitle, statsRow,
                 xpSection,
                 badgesTitle, badgesRow,
-                viewAllBadges
+                viewAllBadges,
+                settingsBtn
         );
 
         ScrollPane scroll = new ScrollPane(content);
