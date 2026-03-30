@@ -107,6 +107,7 @@ public class GameLobbyScreen {
 
         ArrayList<MiniGame> games =
                 careerDAO.getGamesForCareer(career.getCareerId());
+        System.out.println("DEBUG — Career: " + career.getTitle() + " | Games found: " + games.size());
 
         VBox gamesList = new VBox(16);
         gamesList.setAlignment(Pos.CENTER);

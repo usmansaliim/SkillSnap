@@ -65,7 +65,8 @@ public class ScreenManager {
     }
 
     public void showGameLobby(CareerPath career) {
-        setScene(new GameLobbyScreen(career).getLayout());
+        GameLobbyScreen screen = new GameLobbyScreen(career);
+        setScene(screen.getLayout());
     }
 
     public void showGame(MiniGame game, CareerPath career) {

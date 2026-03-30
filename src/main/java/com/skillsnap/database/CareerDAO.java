@@ -72,7 +72,7 @@ public class CareerDAO {
                         rs.getInt   ("career_id"),
                         rs.getString("title"),
                         rs.getString("description"),
-                        rs.getString("instructions"),
+                        "",
                         rs.getString("difficulty"),
                         rs.getInt   ("max_score"),
                         rs.getInt   ("time_limit_sec"),

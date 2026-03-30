@@ -136,10 +136,7 @@ public class CareerMapScreen {
 
         // Store career in button for navigation
         // (GameLobbyScreen will receive this career)
-        playBtn.setOnAction(e -> {
-            // Will implement when GameLobbyScreen is built
-            ScreenManager.getInstance().showGameLobby(career);
-        });
+        playBtn.setOnAction(e -> ScreenManager.getInstance().showGameLobby(career));
 
         card.getChildren().addAll(
                 fieldTag, title, demand, salary, playBtn);
