@@ -86,6 +86,8 @@ public class CareerMapScreen {
         return root;
     }
 
+
+
     // ── Career card ───────────────────────────────────────────
     private VBox makeCareerCard(CareerPath career) {
         VBox card = new VBox(12);
@@ -103,6 +105,8 @@ public class CareerMapScreen {
 
         // Career title
         Text title = new Text(career.getTitle());
+        
+        ScreenManager.getInstance().showGameLobby(career);
         title.setStyle(
                 "-fx-font-size: 14px;" +
                         "-fx-font-weight: bold;" +

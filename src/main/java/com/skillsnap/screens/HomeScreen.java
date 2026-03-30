@@ -3,6 +3,7 @@ import com.skillsnap.app.ScreenManager;
 import com.skillsnap.database.GameDAO;
 import com.skillsnap.models.player.Player;
 import com.skillsnap.models.player.PlayerSession;
+import com.skillsnap.utils.AnimationUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -103,6 +104,12 @@ public class HomeScreen {
 
         // ── START PLAYING BUTTON ──────────────────────────────
         Button playBtn = new Button("Explore Careers");
+        Button suggBtn = new Button("My Career Match");
+        suggBtn.getStyleClass().add("btn-secondary");
+        suggBtn.setPrefWidth(220);
+        suggBtn.setPrefHeight(50);
+        suggBtn.setOnAction(e ->
+                ScreenManager.getInstance().showSuggestion());
         playBtn.getStyleClass().add("btn-primary");
         playBtn.setPrefWidth(220);
         playBtn.setPrefHeight(50);
@@ -112,10 +119,12 @@ public class HomeScreen {
                 ScreenManager.getInstance().showCareerMap());
 
         content.getChildren().addAll(
-                welcome, statsRow, xpSection, playBtn);
+                welcome, statsRow, xpSection, playBtn, suggBtn);
         root.setCenter(content);
-
+        AnimationUtils.slideInFromRight(content);
         return root;
+
+
     }
 
     // ── Stat card helper ──────────────────────────────────────

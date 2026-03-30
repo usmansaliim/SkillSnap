@@ -9,7 +9,6 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Connect to database
-        DatabaseManager.getInstance();
 
         // Hand stage to ScreenManager
         ScreenManager.getInstance().setStage(primaryStage);

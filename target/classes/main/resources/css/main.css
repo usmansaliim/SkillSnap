@@ -139,3 +139,35 @@
     -fx-border-color: #2E75B6;
     -fx-background-color: #1C2128;
 }
+
+/* Suggestion screen progress bar */
+.match-bar {
+    -fx-accent: #3FB950;
+    -fx-background-color: #30363D;
+    -fx-background-radius: 6;
+    -fx-pref-height: 12px;
+}
+
+/* Skill chip */
+.skill-chip {
+    -fx-background-color: #1F3864;
+    -fx-text-fill: #2E75B6;
+    -fx-padding: 4 12;
+    -fx-background-radius: 20;
+    -fx-font-size: 12px;
+}
+
+/* Scrollbar styling — hide ugly default */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+.scroll-bar .thumb {
+    -fx-background-color: #30363D;
+    -fx-background-radius: 4;
+}
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}

@@ -8,6 +8,10 @@ import com.skillsnap.models.game.GameResult;          // ← this one
 import com.skillsnap.models.game.MiniGame;
 import com.skillsnap.models.player.Player;
 import com.skillsnap.models.player.PlayerSession;
+import com.skillsnap.engine.BadgeEngine;
+import java.util.ArrayList;
+
+import com.skillsnap.utils.AnimationUtils;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
@@ -796,6 +800,12 @@ public class GameScreen {
             showQuestion();
         }));
         pause.play();
+        if (!correct) {
+            AnimationUtils.shake(card);
+        } else {
+            AnimationUtils.bounce(card);
+        }
+// import: import com.skillsnap.utils.AnimationUtils;
     }
 
     // ── TIMER ─────────────────────────────────────────────────
@@ -824,7 +834,6 @@ public class GameScreen {
         timer.play();
     }
 
-    // ── END GAME ──────────────────────────────────────────────
     private void endGame() {
         if (timer != null) timer.stop();
 
@@ -832,7 +841,7 @@ public class GameScreen {
         Player player =
                 PlayerSession.getInstance().getCurrentPlayer();
 
-        // Save to database
+        // Save session to DB
         gameDAO.saveSession(
                 player.getPlayerId(),
                 game.getGameId(),
@@ -841,24 +850,43 @@ public class GameScreen {
                 timeTaken
         );
 
-        // Add XP to player
+        // Add XP
         int xpEarned = score >= 90 ? 100 :
                 score >= 70 ? 75  :
                         score >= 50 ? 50  : 25;
         playerDAO.addXP(player.getPlayerId(), xpEarned);
 
-        // Build result message
+        // Update streak
+        playerDAO.updateStreak(player.getPlayerId());
+
+        // Check badges
+        BadgeEngine badgeEngine = new BadgeEngine();
+        ArrayList<String> newBadges =
+                badgeEngine.checkAndAward(player, score,
+                        game.getMaxScore());
+
+        // Refresh player in session with updated XP
+        Player updated =
+                playerDAO.getPlayerById(player.getPlayerId());
+        if (updated != null)
+            PlayerSession.getInstance().login(updated);
+
+        // Build result
         double pct = (score * 100.0) / game.getMaxScore();
         String message = pct >= 90 ? "Outstanding!" :
                 pct >= 70 ? "Great work!"  :
                         pct >= 50 ? "Good effort!" :
                                 "Keep practicing!";
 
+        // Append badge info to message if earned
+        if (!newBadges.isEmpty()) {
+            message += "\nNew badge: " + newBadges.get(0) + "!";
+        }
+
         GameResult result = new GameResult(
                 game.getGameId(), score, game.getMaxScore(),
                 timeTaken, xpEarned, message);
 
-        // Go to results screen
         ScreenManager.getInstance().showResults(result, career);
     }
 

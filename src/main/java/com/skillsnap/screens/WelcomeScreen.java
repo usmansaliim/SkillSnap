@@ -1,5 +1,6 @@
 package com.skillsnap.screens;
 import com.skillsnap.app.ScreenManager;
+import com.skillsnap.utils.AnimationUtils;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -42,9 +43,11 @@ public class WelcomeScreen {
                 ScreenManager.getInstance().showRegister());
 
         // Version tag
-        Text version = new Text("v1.0  •  NUST Semester Project");
+        Text version = new Text(
+                "SkillSnap v1.0  •  Muhammad Usman Saleem  •  " +
+                        "NUST SEECS  •  Semester 2 OOP Project");
         version.getStyleClass().add("subtitle-text");
-        version.setStyle("-fx-font-size: 12px;");
+        version.setStyle("-fx-font-size: 11px;");
 
         center.getChildren().addAll(
                 title, tagline, spacer,
@@ -52,6 +55,11 @@ public class WelcomeScreen {
         );
 
         root.setCenter(center);
+
+        AnimationUtils.fadeIn(center);
         return root;
+
     }
+
+
 }

@@ -15,6 +15,7 @@ import com.skillsnap.screens.RoadmapScreen;
 import com.skillsnap.screens.ProfileScreen;
 import com.skillsnap.screens.LeaderboardScreen;
 import javafx.scene.Scene;
+import com.skillsnap.screens.SuggestionScreen;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -78,6 +79,10 @@ public class ScreenManager {
         setScene(new ProfileScreen().getLayout());
     }
 
+    public void showSuggestion() {
+        setScene(new SuggestionScreen().getLayout());
+    }
+
     public void showBadges() {
         // Badges shown inside ProfileScreen for now
         setScene(new ProfileScreen().getLayout());
@@ -103,4 +108,6 @@ public class ScreenManager {
         stage.setScene(scene);
         stage.show();
     }
+
+
 }

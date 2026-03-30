@@ -2,6 +2,7 @@ package com.skillsnap.screens;
 
 import com.skillsnap.app.ScreenManager;
 import com.skillsnap.database.PlayerDAO;
+import com.skillsnap.utils.ValidationUtils;
 import com.skillsnap.models.player.*;
 import javafx.geometry.*;
 import javafx.scene.control.*;
@@ -85,40 +86,55 @@ public class RegisterScreen {
         return root;
     }
 
-    private void handleRegister(String fullName, String username,
-                                String email,    String university,
-                                String password, Text feedbackText) {
-        // Validation
-        if (fullName.isEmpty() || username.isEmpty() ||
-                email.isEmpty()    || password.isEmpty()) {
-            feedbackText.getStyleClass().setAll("error-text");
-            feedbackText.setText("Please fill in all fields.");
-            return;
-        }
-        if (password.length() < 6) {
-            feedbackText.getStyleClass().setAll("error-text");
-            feedbackText.setText("Password must be at least 6 characters.");
-            return;
-        }
-        if (playerDAO.usernameExists(username)) {
-            feedbackText.getStyleClass().setAll("error-text");
-            feedbackText.setText("Username already taken.");
-            return;
+    private void handleRegister(String fullName,
+                                String username,
+                                String email,
+                                String university,
+                                String password,
+                                Text feedbackText) {
+
+        // Validate each field with specific messages
+        String nameError = ValidationUtils.getFullNameError(fullName);
+        if (nameError != null) {
+            showError(feedbackText, nameError); return;
         }
 
-        // Register
+        String userError = ValidationUtils.getUsernameError(username);
+        if (userError != null) {
+            showError(feedbackText, userError); return;
+        }
+
+        String emailError = ValidationUtils.getEmailError(email);
+        if (emailError != null) {
+            showError(feedbackText, emailError); return;
+        }
+
+        String passError = ValidationUtils.getPasswordError(password);
+        if (passError != null) {
+            showError(feedbackText, passError); return;
+        }
+
+        if (playerDAO.usernameExists(username)) {
+            showError(feedbackText,
+                    "Username already taken. Try another."); return;
+        }
+
         boolean success = playerDAO.register(
                 username, password, fullName, email, university, 1);
 
         if (success) {
-            // Auto-login after register
             Player player = playerDAO.login(username, password);
             PlayerSession.getInstance().login(player);
             ScreenManager.getInstance().showHome();
         } else {
-            feedbackText.getStyleClass().setAll("error-text");
-            feedbackText.setText("Registration failed. Try again.");
+            showError(feedbackText,
+                    "Registration failed. Please try again.");
         }
+    }
+
+    private void showError(Text text, String message) {
+        text.getStyleClass().setAll("error-text");
+        text.setText(message);
     }
 
     // ── Helpers ───────────────────────────────────────────────

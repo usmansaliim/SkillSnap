@@ -8,6 +8,7 @@ import com.skillsnap.models.career.CareerResult;
 import com.skillsnap.models.game.*;
 import com.skillsnap.models.player.Player;
 import com.skillsnap.models.player.PlayerSession;
+import com.skillsnap.utils.AnimationUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -165,7 +166,11 @@ public class ResultsScreen {
                 suggestionBox, buttons);
 
         root.setCenter(content);
+        AnimationUtils.fadeIn(scoreCircle);
+        AnimationUtils.bounce(scoreCircle);
         return root;
+
+
     }
 
     private VBox makeStatBox(String label,
