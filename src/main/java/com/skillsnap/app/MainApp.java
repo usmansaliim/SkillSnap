@@ -8,18 +8,15 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Connect to database
+        // ✅ Actually connect to database
+        DatabaseManager.getInstance();
 
-        // Hand stage to ScreenManager
         ScreenManager.getInstance().setStage(primaryStage);
-
-        // Show first screen
         ScreenManager.getInstance().showWelcome();
     }
 
     @Override
     public void stop() {
-        // Disconnect DB cleanly when window closes
         DatabaseManager.getInstance().disconnect();
     }
 

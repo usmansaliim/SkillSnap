@@ -118,59 +118,69 @@ public class PlayerDAO {
         );
     }
     // ── UPDATE USERNAME ───────────────────────────────────────
-    public boolean updateUsername(int playerId, String newUsername) {
-        String sql = "UPDATE Player SET username = ? WHERE player_id = ?";
+    // ── UPDATE USERNAME ───────────────────────────────────────
+    public boolean updateUsername(int playerId,
+                                  String newUsername) {
+        String sql = "UPDATE Player SET username = ? " +
+                "WHERE player_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newUsername);
             ps.setInt(2, playerId);
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println("Username update failed: " + e.getMessage());
+            System.out.println("updateUsername failed: "
+                    + e.getMessage());
             return false;
         }
     }
 
     // ── UPDATE PASSWORD ───────────────────────────────────────
     public boolean updatePassword(int playerId,
-                                  String currentPassword,
-                                  String newPassword) {
-        // First verify current password is correct
-        String checkSql = "SELECT 1 FROM Player " +
-                "WHERE player_id = ? AND password_hash = ?";
-        try (PreparedStatement ps = conn.prepareStatement(checkSql)) {
+                                  String currentPass,
+                                  String newPass) {
+        // Verify current password first
+        String verify = "SELECT 1 FROM Player " +
+                "WHERE player_id = ? " +
+                "AND password_hash = ?";
+        try (PreparedStatement ps = conn.prepareStatement(verify)) {
             ps.setInt(1, playerId);
-            ps.setString(2, currentPassword);
+            ps.setString(2, currentPass);
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) return false; // wrong current password
 
-            // Now update
-            String updateSql = "UPDATE Player SET password_hash = ? " +
+            // Update to new password
+            String update = "UPDATE Player SET password_hash = ? " +
                     "WHERE player_id = ?";
-            try (PreparedStatement ps2 = conn.prepareStatement(updateSql)) {
-                ps2.setString(1, newPassword);
+            try (PreparedStatement ps2 =
+                         conn.prepareStatement(update)) {
+                ps2.setString(1, newPass);
                 ps2.setInt(2, playerId);
                 ps2.executeUpdate();
                 return true;
             }
         } catch (SQLException e) {
-            System.out.println("Password update failed: " + e.getMessage());
+            System.out.println("updatePassword failed: "
+                    + e.getMessage());
             return false;
         }
     }
 
     // ── UPDATE AVATAR ─────────────────────────────────────────
     public boolean updateAvatar(int playerId, int avatarId) {
-        String sql = "UPDATE Player SET avatar_id = ? WHERE player_id = ?";
+        String sql = "UPDATE Player SET avatar_id = ? " +
+                "WHERE player_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, avatarId);
             ps.setInt(2, playerId);
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println("Avatar update failed: " + e.getMessage());
+            System.out.println("updateAvatar failed: "
+                    + e.getMessage());
             return false;
         }
     }
+
 
 }

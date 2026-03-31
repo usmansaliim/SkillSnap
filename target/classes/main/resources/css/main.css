@@ -204,3 +204,37 @@
     -fx-background-radius: 4;
     -fx-pref-height: 6px;
 }
+
+/* ── Quest cards ── */
+.quest-card {
+    -fx-background-color: #161B22;
+    -fx-background-radius: 10;
+    -fx-border-color: #30363D;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-padding: 14;
+}
+
+.quest-card-completed {
+    -fx-background-color: #0D1F0D;
+    -fx-background-radius: 10;
+    -fx-border-color: #3FB950;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-padding: 14;
+}
+
+/* ── Quest progress bars ── */
+.quest-bar {
+    -fx-accent: #2E75B6;
+    -fx-background-color: #30363D;
+    -fx-background-radius: 4;
+    -fx-pref-height: 8px;
+}
+
+.quest-bar-done {
+    -fx-accent: #3FB950;
+    -fx-background-color: #30363D;
+    -fx-background-radius: 4;
+    -fx-pref-height: 8px;
+}
